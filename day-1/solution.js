@@ -26,7 +26,7 @@ const partOne = (input) => {
 };
 
 const getNumbersFromString = (input) => {
-    const matchString = '(?=(' + Object.keys(wordsToNumbers).concat(Object.values(wordsToNumbers)).join('|') + '))';
+    const matchString = `(?=(${Object.keys(wordsToNumbers).concat(Object.values(wordsToNumbers)).join('|')}))`;
     const regExp = new RegExp(matchString, 'g');
 
     const matches = input.matchAll(regExp);
