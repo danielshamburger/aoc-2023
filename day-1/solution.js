@@ -1,7 +1,7 @@
 const fs = require('node:fs');
 
-// const INPUT_PATH = 'input.txt';
-const INPUT_PATH = 'part-2-test-input.txt';
+const INPUT_PATH = 'input.txt';
+// const INPUT_PATH = 'part-2-test-input.txt';
 
 const wordsToNumbers = {
     one: '1',
@@ -15,18 +15,6 @@ const wordsToNumbers = {
     nine: '9',
 };
 
-const numberStrings = [
-    '1', 
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9'
-];
-
 // only works if every line contains at least one number
 const partOne = (input) => { 
     const calibrationValues = input.map((line) => {
@@ -37,41 +25,34 @@ const partOne = (input) => {
     return calibrationValues.reduce((acc, curr) => acc + Number(curr), 0);
 };
 
-const replaceSpelledOutNumbers = (input) => {
-    const regex = new RegExp(Object.keys(wordsToNumbers).concat(numberStrings).join('|'), 'g');
+const getNumbersFromString = (input) => {
+    const matchString = '(?=(' + Object.keys(wordsToNumbers).concat(Object.values(wordsToNumbers)).join('|') + '))';
+    const regExp = new RegExp(matchString, 'g');
 
-    console.log('regex', regex);
-    const numericValues = [];
-    const matches = input.matchAll(`/(?=(${Object.keys(wordsToNumbers).concat(numberStrings).join('|')})/g`);
+    const matches = input.matchAll(regExp);
+    const values = [];
 
     for(const match of matches) {
-        console.log('match', match);
+        // reg exp is matching empty strings and I ran out of time fiddling with,
+        // so just grabbing the second match, which is the one we care about
+        const value = match[1];
+
+        if (Number.isNaN(Number(value))) {
+            values.push(wordsToNumbers[value]);
+        } else {
+            values.push(value);
+        }
     }
 
-    return numericValues;
+    return values;
 };
 
 const partTwo = (input) => {
     const calibrationValues = [];
     input.forEach((line) => {
-        console.log(line);
-        // let replaced = line;
+        const valuesInLine = getNumbersFromString(line);
 
-        // const validNumberStrings = Object.keys(wordsToNumbers);
-        // validNumberStrings.forEach((number) => {
-        //     // keep the original number
-        //     replaced = replaced.replaceAll(number, wordsToNumbers[number] + number);
-        // });
-        const replaced = replaceSpelledOutNumbers(line);
-        console.log('replaced: ', replaced);
-
-        // const numbers = replaced.split('').filter((char) => !Number.isNaN(Number(char)));
-        // console.log('numbers: ', numbers);
-        // console.log('first: ', numbers[0]);
-        // console.log('last: ', numbers[numbers.length - 1]);
-        // console.log('pushing', numbers[0] + numbers[numbers.length - 1]);
-        console.log("===========");
-        // calibrationValues.push(numbers[0] + numbers[numbers.length - 1]);
+        calibrationValues.push(valuesInLine[0] + valuesInLine[valuesInLine.length - 1]);
     });
 
     return calibrationValues.reduce((acc, curr) => acc + Number(curr), 0);
