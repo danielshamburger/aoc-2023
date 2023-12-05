@@ -1,3 +1,7 @@
+/*
+ * This is a bit of a dumpster fire. Probably should use some better data structures and unit testing on upcoming days.
+*/
+
 const fs = require("node:fs");
 
 const INPUT_PATH = "i.txt";
@@ -17,8 +21,8 @@ const solve = (input) => {
       } else if (partNumberBuffer.length > 0) {
         let isValidPartNumber = false;
 
+        // for each digit, check all of the surrounding characters
         for(const digit of partNumberBuffer) {
-          // for each digit, check all of the surrounding characters
           const surrounding = [];
 
           // if not first row, check top
@@ -34,36 +38,42 @@ const solve = (input) => {
               input[row+1][digit.index], // bottom
             );
           }
+
           // if not first column, check left
           if (digit.index > 0) {
             surrounding.push(
               input[row][digit.index-1], // left
             );
           }
+
           // if not last column, check right
           if (digit.index < input[row].length - 1) {
             surrounding.push(
               input[row][digit.index+1], // right
             );
           }
+
           // if not first row and not first column, check top left
           if (row > 0 && digit.index > 0) {
             surrounding.push(
               input[row-1][digit.index-1], // top left
             );
           }
+
           // if not first row and not last column, check top right
           if (row > 0 && digit.index < input[row].length - 1) {
             surrounding.push(
               input[row-1][digit.index+1], // top right
             );
           }
+
           // if not last row and not first column, check bottom left
           if (row < input.length - 1 && digit.index > 0) {
             surrounding.push(
               input[row+1][digit.index-1], // bottom left
             );
           }
+          
           // if not last row and not last column, check bottom right
           if (row < input.length - 1 && digit.index < input[row].length - 1) {
             surrounding.push(
