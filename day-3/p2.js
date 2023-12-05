@@ -31,10 +31,6 @@ const getPartNumberIndices = (fullRow, row, col) => {
         partNumberindices.push({row, index: i});
     }
 
-    if(row === 138) {
-        console.log('partNumber', partNumber);
-    }
-
     return {
         partNumber,
         indices: partNumberindices
@@ -44,8 +40,6 @@ const getPartNumberIndices = (fullRow, row, col) => {
 const partNumberIndicesAreEqual = (arr1, arr2) => arr1.every((value, i) => value.row === arr2[i]?.row && value.index === arr2[i]?.index)
 
 const duplicatePartNumber = (partNumber, adjacentParts) => {
-    console.log('checking if', partNumber);
-    console.log('is in', adjacentParts);
     return adjacentParts.some((part) => partNumberIndicesAreEqual(part.indices, partNumber.indices));
 };
 
@@ -54,7 +48,6 @@ const solve = (input) => {
 
   // loop over rows
   for (let row = 0; row < input.length; row++) {
-    console.log('============= row =============', row + 1);
 
     // loop over columns
     for (let col = 0; col < input[row].length + 1; col++) {
@@ -68,10 +61,8 @@ const solve = (input) => {
             if(row > 0) {
                 const adjacent = input[row-1][col];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row-1], row-1, col);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
@@ -81,10 +72,8 @@ const solve = (input) => {
             if(row < input.length - 1) {
                 const adjacent = input[row+1][col];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row+1], row+1, col);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
@@ -94,10 +83,8 @@ const solve = (input) => {
             if (col > 0) {
                 const adjacent = input[row][col-1];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row], row, col-1);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
@@ -107,10 +94,8 @@ const solve = (input) => {
             if (col < input[row].length - 1) {
                 const adjacent = input[row][col+1];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row], row, col+1);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
@@ -120,10 +105,8 @@ const solve = (input) => {
             if (row > 0 && col > 0) {
                 const adjacent = input[row-1][col-1];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row-1], row-1, col-1);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
@@ -133,10 +116,8 @@ const solve = (input) => {
             if (row > 0 && col < input[row].length - 1) {
                 const adjacent = input[row-1][col+1];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row-1], row-1, col+1);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
@@ -146,10 +127,8 @@ const solve = (input) => {
             if (row < input.length - 1 && col > 0) {
                 const adjacent = input[row+1][col-1];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row+1], row+1, col-1);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
@@ -159,24 +138,16 @@ const solve = (input) => {
             if (row < input.length - 1 && col < input[row].length - 1) {
                 const adjacent = input[row+1][col+1];
                 if (!Number.isNaN(Number(adjacent))) {
-                    // console.log('adjacent number', adjacent);
                     const partNumber = getPartNumberIndices(input[row+1], row+1, col+1);
                     if (!duplicatePartNumber(partNumber, adjacentParts)) {
-                        // console.log('pushing', partNumber.partNumber);
                         adjacentParts.push(partNumber);
                     }
                 }
             }
 
-
-            for (adjacentPart of adjacentParts) {
-                console.log('adjacentPart', adjacentPart.partNumber);
-            }
             if (adjacentParts.length === 2) {
                 gearRatioProducts += Number(adjacentParts[0].partNumber) * Number(adjacentParts[1].partNumber);
             }
-
-            console.log('adjacentParts', adjacentParts);
         }
     }
   }
