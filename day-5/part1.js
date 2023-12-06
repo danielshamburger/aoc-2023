@@ -12,7 +12,6 @@ const solution = (input) => {
         .filter((n) => !isNaN(n) && n.length > 0)
         .map((n) => parseInt(n));
 
-    // or map sections to mappings
     const mappings = sections.map((section) => {
         // first item is the label, the rest are the mappings
         const transitionMap = section.split("\n");
