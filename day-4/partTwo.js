@@ -68,8 +68,8 @@ const scoreCards = (cards) => {
         if (cardScore > 0) {
             for (i = 1; i <= cardScore; i++) {
                 const cardNumber = card.cardNumber + i;
-                const newIstances = cardCopies[cardNumber] || 1;
-                cardCopies[cardNumber] = newIstances + instances;
+                const newInstances = cardCopies[cardNumber] || 1;
+                cardCopies[cardNumber] = newInstances + instances;
             }
         }
     });
